@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+                name="viewModel"
+                type="fr.athanase.deezerapp.feature.album.AlbumFragmentDatabinding"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        
+        <fr.athanase.components.UrlImageView
+                android:id="@+id/cover"
+                android:layout_width="@dimen/picture_square_size"
+                android:layout_height="@dimen/picture_square_size"
+                app:url="@{viewModel.cover}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.title}"
+                app:layout_constraintTop_toBottomOf="@id/cover"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Title"/>
+
+        <TextView
+                android:id="@+id/artistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.artistName}"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="ArtistName"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

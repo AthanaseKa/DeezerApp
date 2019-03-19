@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Kotlin                                                                                                         //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.kotlinVersion"
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // AndroidX                                                                                                       //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation "androidx.appcompat:appcompat:$rootProject.supportLibraryVersion"
+    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Third party                                                                                                    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+}

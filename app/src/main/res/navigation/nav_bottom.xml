@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            app:startDestination="@+id/home_fragment"
+            android:id="@+id/nav_bottom">
+
+    <include app:graph="@navigation/nav_deezer" />
+
+    <fragment
+            android:id="@+id/home_fragment"
+            android:name="fr.athanase.deezerapp.feature.home.HomeFragment"
+            android:label="@string/home"
+            tools:layout="@layout/fragment_home">
+    </fragment>
+
+    <fragment
+            android:id="@+id/search_fragment"
+            android:name="fr.athanase.deezerapp.feature.search.SearchFragment"
+            android:label="@string/home"
+            tools:layout="@layout/fragment_search">
+    </fragment>
+    <fragment
+            android:id="@+id/account_fragment"
+            android:name="fr.athanase.deezerapp.feature.account.AccountFragment"
+            android:label="@string/home"
+            tools:layout="@layout/fragment_account">
+    </fragment>
+</navigation>

@@ -1,0 +1,13 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Kotlin                                                                                                         //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.kotlinVersion"
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

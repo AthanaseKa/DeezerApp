@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            app:startDestination="@+id/bottom_navigation_fragment"
+            android:id="@+id/nav_deezer">
+    <fragment
+            android:id="@+id/bottom_navigation_fragment"
+            android:name="fr.athanase.deezerapp.feature.BottomNavigationFragment"
+            android:label="@string/home"
+            tools:layout="@layout/fragment_home">
+        <action
+                android:id="@+id/action_bottom_fragment_to_album_fragment"
+                app:destination="@id/album_fragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+        <action
+                android:id="@+id/action_bottom_fragment_to_artist_fragment"
+                app:destination="@id/artist_fragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+        <action
+                android:id="@+id/action_bottom_fragment_to_playlist_fragment"
+                app:destination="@id/playlist_fragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+            android:id="@+id/album_fragment"
+            android:name="fr.athanase.deezerapp.feature.album.AlbumFragment"
+            android:label="@string/album"
+            tools:layout="@layout/fragment_album">
+        <argument
+                android:name="albumId"
+                app:argType="long" />
+    </fragment>
+    <fragment
+            android:id="@+id/artist_fragment"
+            android:name="fr.athanase.deezerapp.feature.artist.ArtistFragment"
+            android:label="@string/artist"
+            tools:layout="@layout/fragment_artist">
+        <argument
+                android:name="artist"
+                app:argType="long" />
+    </fragment>
+    <fragment
+            android:id="@+id/playlist_fragment"
+            android:name="fr.athanase.deezerapp.feature.playlist.PlaylistFragment"
+            android:label="@string/playlist"
+            tools:layout="@layout/fragment_playlist">
+        <argument
+                android:name="playlistId"
+                app:argType="long" />
+    </fragment>
+</navigation>
