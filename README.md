@@ -1,4 +1,2 @@
 # DeezerApp
 
-Deezer App
-
