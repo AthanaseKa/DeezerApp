@@ -26,7 +26,7 @@ object AlbumDao {
         return DatabaseInstance.deezerRealm.saveSingleItemTransaction(albumRealmObject)
     }
 
-    fun observeAlbumById(id: Long): MutableLiveData<Album> {
+    fun observeAlbumById(id: Long): MutableLiveData<Album?> {
         return DatabaseInstance.deezerRealm.observeData({
             where(AlbumRealmObject::class.java).equalTo("id", id)
         }, { it.toEntity() })

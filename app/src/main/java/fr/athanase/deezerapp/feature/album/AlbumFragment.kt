@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import fr.athanase.deezerapp.databinding.FragmentAlbumBinding
-import fr.athanase.entites.Album
 
 class AlbumFragment: Fragment() {
     override fun onCreateView(
@@ -21,8 +20,8 @@ class AlbumFragment: Fragment() {
         binding.viewModel = AlbumFragmentDatabinding()
         ViewModelProviders.of(this, AlbumFragmentViewModelFactory(albumId))
             .get(AlbumFragmentViewModel::class.java).apply {
-                album.observe(this@AlbumFragment, Observer<Album> { album ->
-                    binding.viewModel?.updateAlbum(album)
+                album.observe(this@AlbumFragment, Observer { album ->
+                    album?.let { binding.viewModel?.updateAlbum(it) }
                 })
             }
         return binding.root

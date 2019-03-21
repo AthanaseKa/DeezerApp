@@ -17,12 +17,14 @@ import fr.athanase.deezerapp.item.playlist.PlaylistItemModel
 import fr.athanase.entites.Chart
 
 class HomeFragment: Fragment() {
+    private lateinit var binding: FragmentHomeBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.data = HomeFragmentDatabinding()
         binding.tracks.adapter = GenericAdapter()
         binding.tracks.addItemDecoration(RecyclerViewItemDecoration(10))
@@ -32,15 +34,19 @@ class HomeFragment: Fragment() {
         binding.artists.addItemDecoration(RecyclerViewItemDecoration(10))
         binding.playlists.adapter = GenericAdapter()
         binding.playlists.addItemDecoration(RecyclerViewItemDecoration(10))
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         ViewModelProviders.of(this, HomeFragmentViewModelFactory())
             .get(HomeFragmentViewModel::class.java).apply {
-                chart.observe(this@HomeFragment, Observer<Chart> { chart ->
-                    binding.data?.albums = chart.albums.map { AlbumItemModel(it) }
-                    binding.data?.artists = chart.artists.map { ArtistItemModel(it) }
-                    binding.data?.playlists = chart.playlists.map { PlaylistItemModel(it) }
+                chart.observe(this@HomeFragment, Observer<Chart?> { chart ->
+                    binding.data?.albums = chart?.albums?.map { AlbumItemModel(it) } ?: listOf()
+                    binding.data?.artists = chart?.artists?.map { ArtistItemModel(it) } ?: listOf()
+                    binding.data?.playlists = chart?.playlists?.map { PlaylistItemModel(it) } ?: listOf()
                 })
             }
-        return binding.root
     }
 }

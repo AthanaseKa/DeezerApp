@@ -19,7 +19,7 @@ object ChartDao {
         DatabaseInstance.deezerRealm.saveSingleItemTransaction(chart)
     }
 
-    fun observe(): MutableLiveData<Chart> {
+    fun observe(): MutableLiveData<Chart?> {
         return DatabaseInstance.deezerRealm.observeData({
             where(ChartRealmObject::class.java)
         }, { it.toEntity() })

@@ -2,8 +2,6 @@ package fr.athanase.backend.dao
 
 import androidx.lifecycle.MutableLiveData
 import io.realm.*
-import io.realm.kotlin.addChangeListener
-import io.realm.kotlin.removeChangeListener
 import timber.log.Timber
 
 suspend fun RealmConfiguration.flushDatabase(): Boolean {
@@ -91,20 +89,20 @@ internal inline fun <reified Class: RealmObject, Entity> RealmConfiguration.obse
     return Realm.getInstance(this)
         .query()
         .findAllAsync()
-        .asLiveData(Realm.getInstance(this), transform)
+        .asListLiveData(Realm.getInstance(this), transform)
 }
 
 internal inline fun <reified Class : RealmObject, Entity> RealmConfiguration.observeData(
     crossinline query: Realm.() -> RealmQuery<Class> = { where(Class::class.java) },
     noinline transform: (Class) -> Entity
-): MutableLiveData<Entity> {
+): MutableLiveData<Entity?> {
     return Realm.getInstance(this)
         .query()
-        .findFirstAsync()
+        .findAllAsync()
         .asLiveData(Realm.getInstance(this), transform)
 }
 
-internal fun <T: RealmModel, Entity> RealmResults<T>.asLiveData(
+internal fun <T: RealmModel, Entity> RealmResults<T>.asListLiveData(
     realm: Realm? = null,
     transform: (List<T>) -> List<Entity>
 ): MutableLiveData<List<Entity>> = RealmListLiveData(
@@ -113,10 +111,10 @@ internal fun <T: RealmModel, Entity> RealmResults<T>.asLiveData(
     transform
 )
 
-internal fun <T: RealmModel, Entity> T.asLiveData(
+internal fun <T: RealmModel, Entity> RealmResults<T>.asLiveData(
     realm: Realm? = null,
     transform: (T) -> Entity
-): MutableLiveData<Entity> = RealmLiveData(
+): MutableLiveData<Entity?> = RealmLiveData(
     this,
     realm,
     transform
@@ -140,12 +138,12 @@ internal class RealmListLiveData<T : RealmModel, Entity>(
 }
 
 internal class RealmLiveData<T : RealmModel, Entity>(
-    private val results: T,
+    private val results: RealmResults<T>,
     val realm: Realm? = null,
     private val transform: (T) -> Entity
-): MutableLiveData<Entity>() {
-    private val listener = RealmChangeListener<T> {
-            results -> value = transform(realm?.copyFromRealm(results) ?: results)
+): MutableLiveData<Entity?>() {
+    private val listener = RealmChangeListener<RealmResults<T>> {
+            results -> value = results.firstOrNull()?.let { transform(realm?.copyFromRealm(it) ?: it) }
     }
     override fun onActive() {
         results.addChangeListener(listener)

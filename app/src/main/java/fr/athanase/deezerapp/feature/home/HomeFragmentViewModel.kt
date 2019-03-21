@@ -11,7 +11,7 @@ import timber.log.Timber
 class HomeFragmentViewModel: ViewModel() {
     private val parentJob = Job()
 
-    val chart: MutableLiveData<Chart> = ChartDao.observe()
+    val chart: MutableLiveData<Chart?> = ChartDao.observe()
 
     init {
         val handler = CoroutineExceptionHandler { _, exception ->

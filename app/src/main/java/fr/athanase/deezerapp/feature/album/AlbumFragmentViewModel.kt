@@ -11,7 +11,7 @@ import timber.log.Timber
 class AlbumFragmentViewModel(id: Long): ViewModel() {
     private val parentJob = Job()
 
-    val album: MutableLiveData<Album> = AlbumDao.observeAlbumById(id)
+    val album: MutableLiveData<Album?> = AlbumDao.observeAlbumById(id)
 
     init {
         val handler = CoroutineExceptionHandler { _, exception ->
