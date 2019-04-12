@@ -4,12 +4,14 @@ import android.app.Activity
 import android.content.ContextWrapper
 import android.view.View
 import androidx.navigation.Navigation
-import fr.athanase.components.ItemAction
+import fr.athanase.components.ItemBindingActions
 import fr.athanase.deezerapp.feature.BottomNavigationFragmentDirections
-import fr.athanase.entites.Album
 
-class AlbumItemAction: ItemAction() {
-    fun onAlbumClick(view: View, album: Album) {
+class AlbumItemBindingAction(
+    private val id: Long
+): ItemBindingActions() {
+    fun onAlbumClick(view: View) {
+
         lateinit var activity: Activity
         var context = view.context
         while (context is ContextWrapper) {
@@ -18,7 +20,7 @@ class AlbumItemAction: ItemAction() {
             }
             context = context.baseContext
         }
-        Navigation.findNavController(activity, fr.athanase.deezerapp.R.id.deezerNavFragment)
-            .navigate(BottomNavigationFragmentDirections.actionBottomFragmentToAlbumFragment(album.id))
+        Navigation.findNavController(activity, fr.athanase.deezerapp.R.id.deezerNavFragment).navigate(
+            BottomNavigationFragmentDirections.actionBottomFragmentToAlbumFragment(id))
     }
 }

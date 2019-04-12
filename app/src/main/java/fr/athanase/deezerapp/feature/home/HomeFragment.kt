@@ -10,10 +10,11 @@ import androidx.lifecycle.ViewModelProviders
 import fr.athanase.components.GenericAdapter
 import fr.athanase.components.RecyclerViewItemDecoration
 import fr.athanase.deezerapp.databinding.FragmentHomeBinding
-import fr.athanase.deezerapp.item.album.AlbumItemAction
-import fr.athanase.deezerapp.item.album.AlbumItemModel
-import fr.athanase.deezerapp.item.artist.ArtistItemModel
-import fr.athanase.deezerapp.item.playlist.PlaylistItemModel
+import fr.athanase.deezerapp.item.album.AlbumItemBinding
+import fr.athanase.deezerapp.item.album.AlbumItemBindingData
+import fr.athanase.deezerapp.item.artist.ArtistItemBinding
+import fr.athanase.deezerapp.item.playlist.PlaylistItemBinding
+import fr.athanase.deezerapp.item.playlist.PlaylistItemBindingData
 import fr.athanase.entites.Chart
 
 class HomeFragment: Fragment() {
@@ -28,7 +29,7 @@ class HomeFragment: Fragment() {
         binding.data = HomeFragmentDatabinding()
         binding.tracks.adapter = GenericAdapter()
         binding.tracks.addItemDecoration(RecyclerViewItemDecoration(10))
-        binding.albums.adapter = GenericAdapter(AlbumItemAction())
+        binding.albums.adapter = GenericAdapter()
         binding.albums.addItemDecoration(RecyclerViewItemDecoration(10))
         binding.artists.adapter = GenericAdapter()
         binding.artists.addItemDecoration(RecyclerViewItemDecoration(10))
@@ -43,9 +44,9 @@ class HomeFragment: Fragment() {
         ViewModelProviders.of(this, HomeFragmentViewModelFactory())
             .get(HomeFragmentViewModel::class.java).apply {
                 chart.observe(this@HomeFragment, Observer<Chart?> { chart ->
-                    binding.data?.albums = chart?.albums?.map { AlbumItemModel(it) } ?: listOf()
-                    binding.data?.artists = chart?.artists?.map { ArtistItemModel(it) } ?: listOf()
-                    binding.data?.playlists = chart?.playlists?.map { PlaylistItemModel(it) } ?: listOf()
+                    binding.data?.albums = chart?.albums?.map { AlbumItemBinding(it) } ?: listOf()
+                    binding.data?.artists = chart?.artists?.map { ArtistItemBinding(it) } ?: listOf()
+                    binding.data?.playlists = chart?.playlists?.map { PlaylistItemBinding(it) } ?: listOf()
                 })
             }
     }

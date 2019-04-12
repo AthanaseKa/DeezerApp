@@ -3,16 +3,13 @@
 
     <data>
         <variable
-                name="data"
-                type="fr.athanase.components.ItemModel"/>
-        <variable
-                name="action"
-                type="fr.athanase.components.ItemAction"/>
+                name="binding"
+                type="fr.athanase.components.ItemBinding"/>
     </data>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{data.layoutId}"/>
+            android:text="@{binding.layoutId}"/>
 
 </layout>

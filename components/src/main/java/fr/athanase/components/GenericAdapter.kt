@@ -8,19 +8,18 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-open class GenericAdapter(itemAction: ItemAction? = null): RecyclerView.Adapter<ViewHolder<ItemModel, ItemAction>>()  {
+open class GenericAdapter: RecyclerView.Adapter<ViewHolder<ItemBinding>>()  {
     companion object {
         @JvmStatic
         @BindingAdapter("items")
-        fun <T: ItemModel> RecyclerView.bindItems(items: List<T>) {
+        fun <T: ItemBinding> RecyclerView.bindItems(items: List<T>) {
             (adapter as GenericAdapter?)?.setItemList(items)
         }
     }
 
-    private var itemList: MutableList<ItemModel> = ArrayList()
-    private var action: ItemAction = itemAction ?: ItemAction()
+    private var itemList: MutableList<ItemBinding> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ItemModel, ItemAction> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ItemBinding> {
         val binding: ViewDataBinding = DataBindingUtil
             .inflate(
                 LayoutInflater.from(parent.context), viewType,
@@ -30,20 +29,20 @@ open class GenericAdapter(itemAction: ItemAction? = null): RecyclerView.Adapter<
 
     override fun getItemCount(): Int = itemList.size
 
-    override fun onBindViewHolder(holder: ViewHolder<ItemModel, ItemAction>, position: Int) {
-        holder.bind(itemList[position], action)
+    override fun onBindViewHolder(holder: ViewHolder<ItemBinding>, position: Int) {
+        holder.bind(itemList[position])
     }
 
     override fun getItemViewType(position: Int): Int {
         return getLayoutId(itemList[position])
     }
 
-    fun getLayoutId(model: ItemModel): Int {
+    fun getLayoutId(model: ItemBinding): Int {
         return model.layoutId
     }
 
-    fun setItemList(list: List<ItemModel>) {
-        val diffCallback = DiffCallback<ItemModel>()
+    fun setItemList(list: List<ItemBinding>) {
+        val diffCallback = DiffCallback<ItemBinding>()
         diffCallback.setLists(this.itemList, list)
         val result = DiffUtil.calculateDiff(diffCallback)
         this.itemList.clear()
@@ -51,7 +50,7 @@ open class GenericAdapter(itemAction: ItemAction? = null): RecyclerView.Adapter<
         result.dispatchUpdatesTo(this)
     }
 
-    fun getItemList(): List<ItemModel> {
+    fun getItemList(): List<ItemBinding> {
         return itemList
     }
 }

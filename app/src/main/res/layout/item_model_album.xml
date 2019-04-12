@@ -5,22 +5,19 @@
 
     <data>
         <variable
-                name="data"
-                type="fr.athanase.deezerapp.item.album.AlbumItemModel"/>
-        <variable
-                name="action"
-                type="fr.athanase.deezerapp.item.album.AlbumItemAction"/>
+                name="binding"
+                type="fr.athanase.deezerapp.item.album.AlbumItemBinding"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{(view) -> action.onAlbumClick(view, data.album)}">
+            android:onClick="@{(view) -> binding.actions.onAlbumClick(view)}">
 
         <fr.athanase.components.UrlImageView
                 android:layout_width="@dimen/picture_square_size"
                 android:layout_height="@dimen/picture_square_size"
-                app:url="@{data.picture}"
+                app:url="@{binding.data.picture}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorDark"
                 android:textColor="@color/colorWhite"
-                android:text="@{data.title}"
+                android:text="@{binding.data.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

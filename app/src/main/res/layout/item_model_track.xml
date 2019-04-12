@@ -5,8 +5,8 @@
     
     <data>
         <variable
-                name="data"
-                type="fr.athanase.deezerapp.item.track.TrackItemModel"/>
+                name="binding"
+                type="fr.athanase.deezerapp.item.track.TrackItemBinding"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         <fr.athanase.components.UrlImageView
                 android:layout_width="@dimen/picture_square_size"
                 android:layout_height="@dimen/picture_square_size"
-                app:url="@{data.picture}"
+                app:url="@{binding.data.picture}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorDark"
                 android:textColor="@color/colorWhite"
-                android:text="@{data.title}"
+                android:text="@{binding.data.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
