@@ -8,7 +8,8 @@ import fr.athanase.deezerapp.item.artist.ArtistItemBinding
 import fr.athanase.deezerapp.item.playlist.PlaylistItemBinding
 import fr.athanase.deezerapp.item.track.TrackItemBinding
 
-class HomeFragmentDatabinding: BaseObservable() {
+class SearchDataBinding : BaseObservable() {
+
 
     @get:Bindable
     var showAlbums: Boolean = false
@@ -16,12 +17,14 @@ class HomeFragmentDatabinding: BaseObservable() {
             field = value
             notifyPropertyChanged(BR.showAlbums)
         }
+
     @get:Bindable
     var showArtists: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.showArtists)
         }
+
     @get:Bindable
     var showPlaylists: Boolean = false
         set(value) {
@@ -34,12 +37,7 @@ class HomeFragmentDatabinding: BaseObservable() {
             field = value
             notifyPropertyChanged(BR.showTracks)
         }
-    @get:Bindable
-    var tracks = listOf<TrackItemBinding>()
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.tracks)
-        }
+
     @get:Bindable
     var albums = listOf<AlbumItemBinding>()
         set(value) {
@@ -52,10 +50,18 @@ class HomeFragmentDatabinding: BaseObservable() {
             field = value
             notifyPropertyChanged(BR.artists)
         }
+
     @get:Bindable
     var playlists = listOf<PlaylistItemBinding>()
         set(value) {
             field = value
             notifyPropertyChanged(BR.playlists)
+        }
+
+    @get:Bindable
+    var tracks = listOf<TrackItemBinding>()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.tracks)
         }
 }

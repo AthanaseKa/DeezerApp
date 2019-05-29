@@ -6,7 +6,7 @@ import fr.athanase.backend.pojo.artist.ArtistJson
 import fr.athanase.backend.pojo.playlist.PlaylistJson
 
 internal class ChartJson(
-    //var tracks: ApiListResultJson<TrackJson>,
+//    var tracks: ApiListResultJson<TrackJson>,
     var albums: ApiListResultJson<AlbumJson>,
     var artists: ApiListResultJson<ArtistJson>,
     var playlists: ApiListResultJson<PlaylistJson>

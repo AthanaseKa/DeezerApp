@@ -19,8 +19,8 @@ internal fun ChartJson.toEntity(): Chart {
 
 internal fun ChartJson.toRealmObject(): ChartRealmObject {
     return ChartRealmObject().apply {
-        // tracks = tracks.data?.map { it.toEntity() } ?: throw Exception(""),
         albums.addAll(this@toRealmObject.albums.data?.map { it.toRealmObject() } ?: throw Exception(""))
+//        tracks.addAll(this@toRealmObject.tracks.data?.map { it.toRealmObject() } ?: throw Exception(""))
         artists.addAll(this@toRealmObject.artists.data?.map { it.toRealmObject() } ?: throw Exception(""))
         playlists.addAll(this@toRealmObject.playlists.data?.map { it.toRealmObject() } ?: throw Exception(""))
     }
@@ -28,7 +28,7 @@ internal fun ChartJson.toRealmObject(): ChartRealmObject {
 
 internal fun ChartRealmObject.toEntity(): Chart {
     return Chart(
-//        tracks = tracks.data?.map { it.toEntity() } ?: throw Exception(""),
+//        tracks = tracks.map { it.toEntity() },
         albums = albums.map { it.toEntity() },
         artists = artists.map { it.toEntity() },
         playlists = playlists.map { it.toEntity() }

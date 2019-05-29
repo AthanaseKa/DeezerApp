@@ -4,8 +4,10 @@
     <data>
         <variable
                 name="data"
-                type="fr.athanase.deezerapp.feature.home.HomeFragmentDatabinding"/>
+                type="fr.athanase.deezerapp.feature.home.SearchDataBinding"/>
         <import type="android.view.View"/>
+        <import type="fr.athanase.deezerapp.test.ArtistState"/>
+        <import type="fr.athanase.deezerapp.test.AlbumState"/>
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -80,7 +82,7 @@
                     android:nestedScrollingEnabled="false"
                     app:items="@{data.artists}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:visibility="@{data.showAlbums ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{data.showArtists ? View.VISIBLE : View.GONE}"
                     tools:listitem="@layout/item_model_track"/>
 
             <TextView

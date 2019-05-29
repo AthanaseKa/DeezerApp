@@ -5,20 +5,19 @@
             app:startDestination="@+id/home_fragment"
             android:id="@+id/nav_bottom">
 
-    <include app:graph="@navigation/nav_deezer" />
-
     <fragment
             android:id="@+id/home_fragment"
-            android:name="fr.athanase.deezerapp.feature.home.HomeFragment"
+            android:name="fr.athanase.deezerapp.test.HomeStateFragment"
             android:label="@string/home"
-            tools:layout="@layout/fragment_home">
+    >
+
     </fragment>
 
     <fragment
             android:id="@+id/search_fragment"
-            android:name="fr.athanase.deezerapp.feature.search.SearchFragment"
+            android:name="fr.athanase.deezerapp.test.HomeStateFragment2"
             android:label="@string/home"
-            tools:layout="@layout/fragment_search">
+    >
     </fragment>
     <fragment
             android:id="@+id/account_fragment"
@@ -26,4 +25,5 @@
             android:label="@string/home"
             tools:layout="@layout/fragment_account">
     </fragment>
+
 </navigation>

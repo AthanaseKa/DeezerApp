@@ -1,10 +1,7 @@
 package fr.athanase.backend.feature.album
 
 import androidx.lifecycle.MutableLiveData
-import fr.athanase.backend.dao.DatabaseInstance
-import fr.athanase.backend.dao.fetchSingleItem
-import fr.athanase.backend.dao.observeData
-import fr.athanase.backend.dao.saveSingleItemTransaction
+import fr.athanase.backend.dao.*
 import fr.athanase.backend.pojo.album.AlbumJson
 import fr.athanase.backend.pojo.album.AlbumRealmObject
 import fr.athanase.backend.pojo.album.toEntity
@@ -30,5 +27,19 @@ object AlbumDao {
         return DatabaseInstance.deezerRealm.observeData({
             where(AlbumRealmObject::class.java).equalTo("id", id)
         }, { it.toEntity() })
+    }
+
+    fun observe(): MutableLiveData<List<Album?>> {
+        return DatabaseInstance.deezerRealm.observeDataList(
+            {
+                where(AlbumRealmObject::class.java)
+            },
+            {
+                val list: MutableList<Album> = mutableListOf()
+                for (album in it) {
+                    list.add(album.toEntity())
+                }
+                list
+            })
     }
 }

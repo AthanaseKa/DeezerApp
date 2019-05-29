@@ -4,6 +4,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             app:startDestination="@+id/bottom_navigation_fragment"
             android:id="@+id/nav_deezer">
+
     <fragment
             android:id="@+id/bottom_navigation_fragment"
             android:name="fr.athanase.deezerapp.feature.BottomNavigationFragment"
