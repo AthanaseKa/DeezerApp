@@ -3,8 +3,8 @@ package fr.athanase.deezerapp.test
 import fr.athanase.entites.*
 
 sealed class ChartState {
-    class ShowContent(val chart: Chart) : ChartState()
-    object ShowEmptyState : ChartState()
+    class UpdateCharts(val chart: Chart) : ChartState()
+    object Empty : ChartState()
 }
 
 sealed class SearchState{

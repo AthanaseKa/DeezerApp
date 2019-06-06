@@ -1,46 +1,25 @@
 package fr.athanase.components.test.states
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import fr.athanase.components.test.statefragment.NetworkLiveData
 import fr.athanase.components.test.statefragment.NetworkState
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import timber.log.Timber
 
-abstract class ViewModelState<S, D> : ViewModel(), CoroutineScope by MainScope() {
+abstract class ViewModelState<S>(application: Application) : AndroidViewModel(application),
+    CoroutineScope by MainScope() {
 
-    val liveData: MediatorLiveData<State> = MediatorLiveData()
-    abstract val errorLambda: (error: Throwable) -> Unit
-    abstract val lambda: suspend () -> Unit
+    abstract var hasOperation: Boolean
 
-    abstract val source: MutableLiveData<D>
-    abstract val dataState: (state: D) -> Unit
-
-    fun init() {
-
-        liveData.addSource(source, dataState)
-
-        liveData.value = State.Loading
-
-        val handler = CoroutineExceptionHandler { _, exception ->
-            liveData.postValue(State.Error(exception))
-            errorLambda(exception)
-        }
-
-        launch(Dispatchers.IO + handler) {
-            lambda()
-        }
-    }
-
-    override fun onCleared() {
-        cancel()
-    }
-}
-
-abstract class ViewModelState2<S> (application: Application): AndroidViewModel(application), CoroutineScope by MainScope() {
-
-    private var hasSucceeded: Boolean = false
-    protected var hasOperation: Boolean = false
+    var isOperationFinished: Boolean = false
+    var isOperationLaunched: Boolean = false
 
     private val mainStateLiveData: MutableLiveData<State> = MutableLiveData()
     private val sourcesLiveData: MediatorLiveData<State> = MediatorLiveData()
@@ -55,51 +34,65 @@ abstract class ViewModelState2<S> (application: Application): AndroidViewModel(a
         Timber.w("${javaClass.name} : An error occurred.")
     }
 
-    protected fun addDataSources(sources: List<LiveData<out S>>) {
+    protected fun addDataSources(sources: List<LiveData<DataState>>) {
 
-        getStateLiveData().value = State.Loading
-
-        operation()
+        setLoading()
 
         sources.forEach { source ->
             sourcesLiveData.addSource(source) { state ->
 
-                when (networkLiveData.value) {
-                    is NetworkState.Connected -> {
-                        if (state.)
-                        //if empty
-                            // if is loading && online coroutines
-                                // keep loading
-                            // else
-                                // success -> Empty state
-                        //else
-                            // success show data
+                if (networkLiveData.value is NetworkState.Disconnected
+                    || networkLiveData.value is NetworkState.Connected
+                ) {
+                    Timber.e("${state.toString()} hasope : $hasOperation finished : $isOperationFinished  launched :$isOperationLaunched")
 
-                    }
-                    is NetworkState.Disconnected -> {
-                        //if hasData
-                            //show data
-                        //else
-                            //if network error
-                                //show network error and retry online coroutines when online
-                            //else
-                                //show error
-
+                    if (hasOperation) {
+                        if (!isOperationLaunched) {
+                            operation()
+                        }
+                        if (state is DataState.Content<*>) {
+                            setSuccessOrUpdate()
+                        }
+                    } else {
+                    if (state is DataState.Content<*>) {
+                        setSuccessOrUpdate()
+                    } else {
+                        setError(Throwable("NO OPERATION AND NO DATA"))
                     }
                 }
-
-
-                if (!hasSucceeded) {
-                    mainStateLiveData.value = State.Success
-                    hasSucceeded = true
-                } else {
-                    mainStateLiveData.value = State.Update
                 }
             }
         }
     }
 
-//    protected fun checkOperation() {}
+    private fun setSuccessOrUpdate() {
+//        if (mainStateLiveData.value == State.Success
+//            || mainStateLiveData.value == State.Update) {
+//            mainStateLiveData.value = State.Update
+//        } else {
+//            mainStateLiveData.value = State.Success
+//        }
+    if (mainStateLiveData.value == State.Success
+            || mainStateLiveData.value == State.Update) {
+            mainStateLiveData.postValue(State.Update)
+        } else {
+            mainStateLiveData.postValue(State.Success)
+        }
+    }
+
+    private fun setError(error: Throwable) {
+//        mainStateLiveData.value = State.Error(error)
+        mainStateLiveData.postValue(State.Error(error))
+    }
+
+     fun setLoading() {
+        mainStateLiveData.value = State.Loading
+         mainStateLiveData.postValue(State.Loading)
+         Timber.e("LOOOOAAADDDIIINNNGG")
+         if (hasOperation) {
+             operation()
+         }
+    }
 
     fun checkErrorType() {}
 

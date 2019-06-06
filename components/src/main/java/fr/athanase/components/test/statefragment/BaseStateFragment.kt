@@ -13,70 +13,13 @@ import fr.athanase.components.R
 import fr.athanase.components.databinding.FragmentBaseStateBinding
 import fr.athanase.components.test.states.State
 import fr.athanase.components.test.states.ViewModelState
-import fr.athanase.components.test.states.ViewModelState2
 import timber.log.Timber
 
-abstract class BaseStateFragment<S, D, T : ViewModelState<S, D>> : Fragment() {
-
-    private lateinit var binding: FragmentBaseStateBinding
-
-    abstract val viewModel: T
-    abstract val factory: ViewModelProvider.NewInstanceFactory
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentBaseStateBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        ViewModelProviders.of(this, factory)
-            .get(viewModel::class.java).apply {
-                liveData.observe(this@BaseStateFragment, Observer<State> {
-                    handleState(it)
-                })
-            }
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    open fun handleState(state: State) {
-        when (state) {
-            is State.Loading -> showLoading()
-            is State.Error -> showError()
-//            is State.Success<*> -> showSuccess(state.state as S)
-        }
-    }
-
-    open fun showLoading() {
-        goToFragment(LoadingStateFragment())
-    }
-
-    open fun showError() {
-        goToFragment(ErrorStateFragment())
-    }
-
-    abstract fun showSuccess(state: S)
-
-    protected fun goToFragment(fragment: Fragment) {
-        val transaction = childFragmentManager.beginTransaction()
-        transaction.replace(R.id.success_container, fragment)
-        transaction.commit()
-    }
-}
-
-abstract class BaseStateFragment2<S, T : ViewModelState2<S>> : Fragment() {
+abstract class BaseStateFragment<S, T : ViewModelState<S>> : Fragment() {
 
     protected lateinit var binding: FragmentBaseStateBinding
 
-    abstract val viewModel: T
+    abstract var viewModel: T
     open lateinit var factory: ViewModelProvider.NewInstanceFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -93,12 +36,16 @@ abstract class BaseStateFragment2<S, T : ViewModelState2<S>> : Fragment() {
         ViewModelProviders.of(this, factory)
             .get(viewModel::class.java).apply {
 
-                getNetworkLiveData().observe(this@BaseStateFragment2, Observer<NetworkState> {
+                getNetworkLiveData().observe(viewLifecycleOwner, Observer<NetworkState> {
+
                     handleNetworkState(it)
                 })
 
-                getMediatorLiveData().observe(this@BaseStateFragment2, Observer<State> {})
-                getStateLiveData().observe(this@BaseStateFragment2, Observer<State> {
+                getMediatorLiveData().observe(viewLifecycleOwner, Observer<State> {
+
+                })
+                getStateLiveData().observe(viewLifecycleOwner, Observer<State> {
+                    Timber.e("YAAA")
                     handleState(it)
                 })
 
@@ -107,17 +54,13 @@ abstract class BaseStateFragment2<S, T : ViewModelState2<S>> : Fragment() {
 
     open fun handleNetworkState(networkState: NetworkState) {
         when (networkState) {
-            is NetworkState.Disconnected -> handleState((State.Error(Throwable("NO CONNECTION"))))
+            is NetworkState.Disconnected -> {
+                viewModel.isOperationLaunched = false
+            }
             is NetworkState.Connected -> {
-//                if (getStateLiveData().value is State.Update
-//                    || getStateLiveData().value is State.Success
-//                ) {
-//                    handleState(State.Success)
-//                } else if (getStateLiveData().value is State.Loading) {
-//                                    loading()
-//                } else {
-//                    handleState(getStateLiveData().value)
-//                }
+                if (!viewModel.isOperationLaunched) {
+                    viewModel.setLoading()
+                }
             }
         }
     }
@@ -130,6 +73,7 @@ abstract class BaseStateFragment2<S, T : ViewModelState2<S>> : Fragment() {
             }
             is State.Error -> {
                 Timber.e("----error----")
+                Timber.e(state.error.message)
                 showError(state.error.message ?: "NO MESSAGE")
             }
             is State.Update -> {

@@ -10,7 +10,6 @@ import fr.athanase.deezerapp.item.track.TrackItemBinding
 
 class SearchDataBinding : BaseObservable() {
 
-
     @get:Bindable
     var showAlbums: Boolean = false
         set(value) {

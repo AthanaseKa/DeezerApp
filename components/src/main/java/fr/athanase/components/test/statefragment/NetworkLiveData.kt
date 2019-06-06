@@ -20,6 +20,7 @@ class NetworkLiveData(application: Application) : LiveData<NetworkState>() {
             as ConnectivityManager
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+
         override fun onAvailable(network: Network?) {
             postValue(NetworkState.Connected)
         }
@@ -35,9 +36,9 @@ class NetworkLiveData(application: Application) : LiveData<NetworkState>() {
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
 
         if (activeNetwork?.isConnectedOrConnecting == true) {
-            postValue(NetworkState.Connected)
+            value = NetworkState.Connected
         } else {
-            postValue(NetworkState.Disconnected)
+            value = NetworkState.Disconnected
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
