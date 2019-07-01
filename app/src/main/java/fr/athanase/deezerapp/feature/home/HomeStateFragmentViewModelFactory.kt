@@ -1,4 +1,4 @@
-package fr.athanase.deezerapp.test
+package fr.athanase.deezerapp.feature.home
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -9,14 +9,6 @@ class HomeStateFragmentViewModelFactory(val application: Application): ViewModel
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return HomeStateFragmentViewModel(application) as T
-    }
-}
-
-class HomeStateFragmentViewModelFactory2(val application: Application): ViewModelProvider.AndroidViewModelFactory(application) {
-
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HomeStateFragmentViewModel2(application) as T
     }
 }
 

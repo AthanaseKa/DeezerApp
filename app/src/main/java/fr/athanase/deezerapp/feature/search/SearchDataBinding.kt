@@ -1,4 +1,4 @@
-package fr.athanase.deezerapp.feature.home
+package fr.athanase.deezerapp.feature.search
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable

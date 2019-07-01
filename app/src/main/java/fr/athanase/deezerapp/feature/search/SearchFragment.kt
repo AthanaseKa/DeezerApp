@@ -9,27 +9,23 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import fr.athanase.components.GenericAdapter
 import fr.athanase.components.RecyclerViewItemDecoration
-import fr.athanase.components.test.states.DataState
-import fr.athanase.deezerapp.databinding.FragmentSearch2Binding
-import fr.athanase.deezerapp.feature.home.SearchDataBinding
+import fr.athanase.deezerapp.databinding.FragmentSearchBinding
 import fr.athanase.deezerapp.item.album.AlbumItemBinding
 import fr.athanase.deezerapp.item.artist.ArtistItemBinding
 import fr.athanase.deezerapp.item.playlist.PlaylistItemBinding
 import fr.athanase.deezerapp.item.track.TrackItemBinding
-import fr.athanase.deezerapp.test.*
-import timber.log.Timber
 
 class SearchFragment : Fragment() {
 
-    private lateinit var binding: FragmentSearch2Binding
-    private var homeStateFragment: HomeStateFragment2? = null
+    private lateinit var binding: FragmentSearchBinding
+    private var searchStateFragment: SearchStateFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearch2Binding.inflate(inflater, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.data = SearchDataBinding()
         binding.tracks.adapter = GenericAdapter()
         binding.tracks.addItemDecoration(RecyclerViewItemDecoration(10))
@@ -45,53 +41,39 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeStateFragment = parentFragment as HomeStateFragment2
+        searchStateFragment = parentFragment as SearchStateFragment
 
-        homeStateFragment?.let { parent ->
+        searchStateFragment?.let { parent ->
 
             ViewModelProviders.of(parent, parent.factory)
-                .get(HomeStateFragmentViewModel2::class.java).apply {
+                .get(SearchStateFragmentViewModel::class.java).apply {
 
                     _albumsState.observe(parent, Observer {
-                        when (it) {
-                            is DataState.Content<*> -> updateData(it.content as SearchState?)
-                        }
+                        updateData(it)
                     })
 
                     _artistsState.observe(parent, Observer {
-                        when (it) {
-                            is DataState.Content<*> -> updateData(it.content as SearchState?)
-                        }
+                        updateData(it)
                     })
 
                     _playlistState.observe(parent, Observer {
-                        when (it) {
-                            is DataState.Content<*> -> updateData(it.content as SearchState?)
-                        }
+                        updateData(it)
                     })
 
                     _tracksState.observe(parent, Observer {
-                        when (it) {
-                            is DataState.Content<*> -> updateData(it.content as SearchState?)
-                        }
+                        updateData(it)
                     })
-
                 }
         } ?: throw Throwable("Parent fragment was not found")
     }
 
-    private fun updateData(state: SearchState?) {
+    private fun updateData(state: SearchState) {
         when (state) {
-            is SearchState.ShowEmptyState -> showEmptyState()
             is SearchState.UpdateArtist -> handleArtists(state.artist)
             is SearchState.UpdateAlbum -> handleAlbums(state.albums)
             is SearchState.UpdatePlaylist -> handlePlaylist(state.playlists)
             is SearchState.UpdateTracks -> handleTracks(state.tracks)
         }
-    }
-
-    private fun showEmptyState() {
-        Timber.e("EMPTY")
     }
 
     private fun handleTracks(state: TrackState) {

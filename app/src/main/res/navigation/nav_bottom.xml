@@ -7,23 +7,16 @@
 
     <fragment
             android:id="@+id/home_fragment"
-            android:name="fr.athanase.deezerapp.test.HomeStateFragment"
-            android:label="@string/home"
-    >
-
-    </fragment>
-
+            android:name="fr.athanase.deezerapp.feature.home.HomeStateFragment"
+            android:label="@string/home"/>
     <fragment
             android:id="@+id/search_fragment"
-            android:name="fr.athanase.deezerapp.test.HomeStateFragment2"
-            android:label="@string/home"
-    >
-    </fragment>
+            android:name="fr.athanase.deezerapp.feature.search.SearchStateFragment"
+            android:label="@string/home"/>
     <fragment
             android:id="@+id/account_fragment"
             android:name="fr.athanase.deezerapp.feature.account.AccountFragment"
             android:label="@string/home"
-            tools:layout="@layout/fragment_account">
-    </fragment>
+            tools:layout="@layout/fragment_account"/>
 
 </navigation>

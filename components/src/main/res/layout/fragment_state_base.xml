@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@android:color/holo_blue_light"
+                  android:orientation="vertical">
+
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+            <Button android:layout_width="100dp" android:layout_height="40dp" android:id="@+id/clear_button" android:text="CLEAR"/>
+            <Button android:layout_width="100dp" android:layout_height="40dp" android:id="@+id/fetch_button" android:text="FETCH"/>
+            <Button android:layout_width="100dp" android:layout_height="40dp" android:id="@+id/fetchState" android:text="STATE"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <Button android:layout_width="100dp" android:layout_height="40dp" android:id="@+id/success" android:text="SUCCESS"
+            android:backgroundTint="@android:color/holo_green_dark"/>
+            <Button android:layout_width="100dp" android:layout_height="40dp" android:id="@+id/loading" android:text="LOADING"
+            android:backgroundTint="@android:color/holo_orange_dark"/>
+            <Button android:layout_width="100dp" android:layout_height="40dp" android:id="@+id/error" android:text="ERROR"
+            android:backgroundTint="@android:color/holo_red_dark"/>
+            <Button android:layout_width="100dp" android:layout_height="40dp" android:id="@+id/empty" android:text="EMPTY"
+                    android:textColor="@android:color/white" android:backgroundTint="@android:color/black"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+                android:layout_marginTop="20dp"
+                android:paddingTop="20dp"
+                android:id="@+id/fragment_state_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        />
+
+    </LinearLayout>
+</layout>

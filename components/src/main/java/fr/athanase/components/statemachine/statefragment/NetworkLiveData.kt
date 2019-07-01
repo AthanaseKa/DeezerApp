@@ -1,4 +1,4 @@
-package fr.athanase.components.test.statefragment
+package fr.athanase.components.statemachine.statefragment
 
 import android.app.Application
 import android.content.Context
@@ -8,11 +8,7 @@ import android.net.NetworkInfo
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.lifecycle.LiveData
-
-sealed class NetworkState {
-    object Connected: NetworkState()
-    object Disconnected: NetworkState()
-}
+import fr.athanase.components.statemachine.states.NetworkState
 
 class NetworkLiveData(application: Application) : LiveData<NetworkState>() {
 

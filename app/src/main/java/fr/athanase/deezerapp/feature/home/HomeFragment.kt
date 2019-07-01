@@ -9,21 +9,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import fr.athanase.components.GenericAdapter
 import fr.athanase.components.RecyclerViewItemDecoration
-import fr.athanase.components.test.states.DataState
 import fr.athanase.deezerapp.databinding.FragmentHomeBinding
 import fr.athanase.deezerapp.item.album.AlbumItemBinding
 import fr.athanase.deezerapp.item.artist.ArtistItemBinding
 import fr.athanase.deezerapp.item.playlist.PlaylistItemBinding
-import fr.athanase.deezerapp.test.ChartState
-import fr.athanase.deezerapp.test.HomeStateFragment
-import fr.athanase.deezerapp.test.HomeStateFragmentViewModel
 import fr.athanase.entites.Chart
-
+import timber.log.Timber
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private  var homeStateFragment: HomeStateFragment? = null
+    private var homeStateFragment: HomeStateFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,20 +44,19 @@ class HomeFragment : Fragment() {
 
         homeStateFragment = parentFragment as HomeStateFragment
 
-        homeStateFragment?.let {parent ->
+        homeStateFragment?.let { parent ->
             ViewModelProviders.of(parent, parent.factory)
                 .get(HomeStateFragmentViewModel::class.java).apply {
                     chartState.observe(parent, Observer {
-                        when (it) {
-                            is DataState.Content<*> -> showSuccess(it.content as ChartState?)
-                        }
+                        Timber.e(it.toString())
+                        showSuccess(it)
                     })
                 }
         } ?: throw Throwable("Parent fragment was not found")
     }
 
     fun showSuccess(chart: ChartState?) {
-        when(chart) {
+        when (chart) {
             is ChartState.UpdateCharts -> showContent(chart.chart)
             else -> showEmptyState()
         }
